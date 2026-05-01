@@ -59,7 +59,22 @@ export default function HomeClient({ initialMosques }: HomeClientProps) {
   );
 
     useEffect(() => {
-      setPrayerTimes(selectedMosque?.timings ?? null);
+      const t = selectedMosque?.timings ?? null;
+
+      if (!t) {
+        setPrayerTimes(null);
+        return;
+      }
+
+      setPrayerTimes({
+        Fajr: t.fajr,
+        Sunrise: t.sunrise ?? "",
+        Dhuhr: t.dhuhr,
+        Asr: t.asr,
+        Maghrib: t.maghrib,
+        Isha: t.isha,
+        Jumuah: t.jumuah ?? undefined,
+      });
     }, [selectedMosque]);
 
   async function loadMosques(nextLocation?: LocationState | null, searchQuery = "") {
